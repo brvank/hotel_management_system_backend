@@ -7,7 +7,7 @@ public class AppMessages {
 
     @Component
     public class Success{
-        public final String userAdded = "User added successfully!"
+        public final String roomAdded = "Room added successfully!"
                 , userUpdated = "User updated Successfully!"
                 , userDeleted = "User deleted Successfully!"
                 , loggedIn = "Logged in successfully!"
@@ -22,7 +22,7 @@ public class AppMessages {
 
     @Component
     public class Error{
-        public final String userNotAdded = "Error saving User. User not added!"
+        public final String roomNotAdded = "Error saving Room. Room not added!"
                 , userNotUpdated = "Error saving User. User not updated!"
                 , userNotDeleted = "Error deleting User. User not deleted!"
                 , userNameExist = "User name already exists!"

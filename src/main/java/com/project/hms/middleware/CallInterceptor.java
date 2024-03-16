@@ -41,14 +41,7 @@ public class CallInterceptor implements HandlerInterceptor {
                 return false;
             }
         }else{
-            ObjectMapper objectMapper = new ObjectMapper();
-
-            Message message = new Message(errorMessages.notAuthorized, false);
-            response.setContentType("application/json");
-            response.setStatus(401);
-            response.getWriter().write(objectMapper.writeValueAsString(message));
-
-            return false;
+            return true;
         }
     }
 

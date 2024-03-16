@@ -26,7 +26,11 @@ public class AppUtil {
                 , PRODUCT_ASSIGNED_DATE = "assigned_date"
                 , PRODUCT_ASSIGNEE_ID = "assignee_id"
                 , PRODUCT_CHANNEL_ID = "channel_id"
-                , PRODUCT_ID = "product_id";
+                , PRODUCT_ID = "product_id"
+                , ROOM_ID = "room_id"
+                , ROOM_CATEGORY = "room_category"
+                , ROOM_INFO = "room_info"
+                , ROOM_PRICE = "room_price";
 
         public final String SUCCESS = "success"
                 , STATUS_CODE = "statusCode"

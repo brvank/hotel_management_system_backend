@@ -26,9 +26,4 @@ public class AuthController {
         return authService.login(requestMap);
     }
 
-    @GetMapping("/data")
-    public ResponseEntity<Object> get(){
-        return appResponse.successResponse("open api warning");
-    }
-
 }
