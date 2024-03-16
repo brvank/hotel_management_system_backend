@@ -37,19 +37,19 @@ public class AppResponse {
     public ResponseEntity<Object> failureResponse(Object object, String message){
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put(appUtilConstants.SUCCESS, appUtilConstants.SUCCESS_FALSE);
-        hashMap.put(appUtilConstants.STATUS_CODE, appUtilConstants.CODE_200);
+        hashMap.put(appUtilConstants.STATUS_CODE, appUtilConstants.CODE_400);
         hashMap.put(appUtilConstants.MESSAGE, message);
         hashMap.put(appUtilConstants.DATA, object);
-        return response(hashMap, HttpStatusCode.valueOf(appUtilConstants.CODE_200));
+        return response(hashMap, HttpStatusCode.valueOf(appUtilConstants.CODE_400));
     }
 
     public ResponseEntity<Object> failureResponse(String message){
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put(appUtilConstants.SUCCESS, appUtilConstants.SUCCESS_FALSE);
-        hashMap.put(appUtilConstants.STATUS_CODE, appUtilConstants.CODE_200);
+        hashMap.put(appUtilConstants.STATUS_CODE, appUtilConstants.CODE_400);
         hashMap.put(appUtilConstants.MESSAGE, message);
         hashMap.put(appUtilConstants.DATA, null);
-        return response(hashMap, HttpStatusCode.valueOf(appUtilConstants.CODE_200));
+        return response(hashMap, HttpStatusCode.valueOf(appUtilConstants.CODE_400));
     }
 
     public ResponseEntity<Object> authenticationErrorResponse(Object object, String message){

@@ -10,8 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class RoomService {
@@ -31,25 +31,22 @@ public class RoomService {
     @Autowired
     AppMessages.Error error;
 
+    List<Room> rooms = new ArrayList<>();
+
     public ResponseEntity<Object> getRooms(User user){
         if(user == null){
             return appResponse.failureResponse(error.notAuthorized);
         }else{
-            return appResponse.successResponse(roomCustomRepository.getRooms(), "");
+            rooms = roomCustomRepository.getRooms();
+            return appResponse.successResponse(rooms, "");
         }
     }
 
-    public ResponseEntity<Object> addRoom(Map<String, Object> roomMap, User user){
+    public ResponseEntity<Object> addRoom(Room room, User user){
         if(user == null){
             return appResponse.failureResponse(error.notAuthorized);
         }else{
             try {
-                Room room = new Room();
-
-                room.setRoom_category((String) roomMap.get(appUtilConstants.ROOM_CATEGORY));
-                room.setRoom_info((String) roomMap.get(appUtilConstants.ROOM_INFO));
-                room.setRoom_price(((int) roomMap.get(appUtilConstants.ROOM_PRICE)*1.0f));
-
                 roomCustomRepository.addRoom(room);
 
                 return appResponse.successResponse(success.roomAdded);
@@ -58,5 +55,23 @@ public class RoomService {
                 return appResponse.failureResponse(error.roomNotAdded);
             }
         }
+    }
+
+    public Room getRoomIfExist(int id){
+        for(Room room : rooms){
+            if(room.getRoom_id() == id){
+                return room;
+            }
+        }
+
+        //fallback
+        rooms = roomCustomRepository.getRooms();
+        for(Room room : rooms){
+            if(room.getRoom_id() == id){
+                return room;
+            }
+        }
+
+        return null;
     }
 }

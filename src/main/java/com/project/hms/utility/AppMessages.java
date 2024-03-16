@@ -11,8 +11,8 @@ public class AppMessages {
                 , userUpdated = "User updated Successfully!"
                 , userDeleted = "User deleted Successfully!"
                 , loggedIn = "Logged in successfully!"
-                , channelAdded = "Channel added successfully!"
-                , channelUpdated = "Channel updated Successfully!"
+                , bookingAdded = "Booking created successfully!"
+                , bookingUpdated = "Booking updated Successfully!"
                 , channelDeleted = "Channel deleted Successfully!"
                 , productAdded = "Product added successfully!"
                 , productUpdated = "Product updated Successfully!"
@@ -26,14 +26,14 @@ public class AppMessages {
                 , userNotUpdated = "Error saving User. User not updated!"
                 , userNotDeleted = "Error deleting User. User not deleted!"
                 , userNameExist = "User name already exists!"
-                , userDoesNotExist = "User doesn't exist!"
+                , roomDoesNotExist = "Room doesn't exist!"
                 , userCantBeDeleted = "This user can't be deleted!"
                 , userIsNotSalesPerson = "Product can't be assigned. This user is not a sales person!"
-                , channelNotAdded = "Error saving Channel. Channel not added!"
+                , bookingNotAdded = "Error saving Booking. Booking not added!"
                 , channelNotUpdated = "Error saving Channel. Channel not updated!"
                 , channelNotDeleted = "Error deleting Channel. Channel not deleted!"
                 , channelExist = "Channel already exists!"
-                , channelDoesNotExist = "Channel doesn't exist!"
+                , bookingDoesNotExist = "Booking doesn't exist!"
                 , productNotAdded = "Error saving Product. Product not added!"
                 , productNotUpdated = "Error saving Product. Product not updated!"
                 , productNotAssigned = "Error assigning Product. Product not assigned!"
@@ -45,6 +45,8 @@ public class AppMessages {
                 , notAuthorized = "Authentication failed. Please re-login again"
                 , errorLogging = "Unknown error occurred while logging in!"
                 , permissionDenied = "Permission denied. You are not allowed to perform this task!"
-                , unknownErrorOccurred = "Unknown error occurred at our end. Please try later!";
+                , unknownErrorOccurred = "Unknown error occurred at our end. Please try later!"
+                , checkInOutTimeConflict = "Check out time must be after check in time!"
+                , advanceTotalConflict = "Advance must be less than or equal to total amount!";
     }
 }

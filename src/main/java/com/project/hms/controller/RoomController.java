@@ -1,5 +1,6 @@
 package com.project.hms.controller;
 
+import com.project.hms.model.Room;
 import com.project.hms.service.RoomService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class RoomController extends ParentController{
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Object> addRoom(@RequestBody Map<String, Object> roomMap, HttpServletRequest header){
-        return roomService.addRoom(roomMap, headerToUser(header));
+    public ResponseEntity<Object> addRooms(@RequestBody Room room, HttpServletRequest header){
+        return roomService.addRoom(room, headerToUser(header));
     }
 }

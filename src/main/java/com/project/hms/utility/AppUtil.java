@@ -39,7 +39,8 @@ public class AppUtil {
                 , APPLICATION_JSON = "application/json";
 
         public final int CODE_200 = 200
-                , CODE_401 = 401;
+                , CODE_401 = 401
+                , CODE_400 = 400;
 
         public final boolean SUCCESS_TRUE = true
                 , SUCCESS_FALSE = false;
