@@ -1,9 +1,11 @@
 package com.project.hms.service;
 
+import com.project.hms.model_nrdb.RoomInventory;
 import com.project.hms.model_rdb.Room;
 import com.project.hms.model_rdb.RoomCategory;
 import com.project.hms.model_rdb.User;
 import com.project.hms.repository.room.RoomCustomRepository;
+import com.project.hms.repository.roominventory.RoomInventoryCustomRepository;
 import com.project.hms.utility.AppMessages;
 import com.project.hms.utility.AppResponse;
 import com.project.hms.utility.AppUtil;
@@ -12,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,6 +23,9 @@ public class RoomService {
 
     @Autowired
     RoomCustomRepository roomCustomRepository;
+
+    @Autowired
+    RoomInventoryCustomRepository roomInventoryCustomRepository;
 
     @Autowired
     AppUtil.Constants appUtilConstants;
@@ -49,7 +55,13 @@ public class RoomService {
             return appResponse.failureResponse(error.notAuthorized);
         }else{
             try {
-                roomCustomRepository.add(room);
+                room = roomCustomRepository.add(room);
+
+                RoomInventory roomInventory = new RoomInventory();
+                roomInventory.setRoom_id(room.getRoom_id());
+                roomInventory.setBookings(new HashMap<>());
+
+                roomInventoryCustomRepository.add(roomInventory);
 
                 return appResponse.successResponse(success.roomAdded);
             }catch (Exception e){

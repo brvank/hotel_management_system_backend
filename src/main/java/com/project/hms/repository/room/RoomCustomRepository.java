@@ -22,8 +22,8 @@ public class RoomCustomRepository {
     @Autowired
     EntityManager entityManager;
 
-    public void add(Room room){
-        roomRepository.save(room);
+    public Room add(Room room){
+        return roomRepository.save(room);
     }
 
     public List<Room> get(){

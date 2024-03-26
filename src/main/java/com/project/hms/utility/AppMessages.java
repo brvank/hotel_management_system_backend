@@ -26,6 +26,7 @@ public class AppMessages {
         public final String roomNotAdded = "Error saving Room. Room not added!"
                 , roomDoesNotExist = "Room doesn't exist!"
                 , roomNotUpdated = "Error updating Room. Room not updated!"
+                , roomNotAvailable = "This room is not available for the given range. Try a different room!"
 
                 , roomCategoryNotAdded = "Error saving Room Category. Room Category not added!"
                 , roomCategoryDoesNotExist = "Room Category doesn't exist!"

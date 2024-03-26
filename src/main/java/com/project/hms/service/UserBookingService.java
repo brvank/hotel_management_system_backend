@@ -1,11 +1,13 @@
 package com.project.hms.service;
 
 import com.project.hms.model_nrdb.BookingAddOn;
+import com.project.hms.model_nrdb.RoomInventory;
 import com.project.hms.model_rdb.AddOn;
 import com.project.hms.model_rdb.UserBooking;
 import com.project.hms.model_rdb.Room;
 import com.project.hms.model_rdb.User;
 import com.project.hms.repository.bookingaddon.BookingAddOnCustomRepository;
+import com.project.hms.repository.roominventory.RoomInventoryCustomRepository;
 import com.project.hms.repository.userbooking.UserBookingCustomRepository;
 import com.project.hms.response_model.CountResponse;
 import com.project.hms.utility.AppMessages;
@@ -14,6 +16,9 @@ import com.project.hms.utility.AppUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.Map;
 
 @Service
 public class UserBookingService {
@@ -26,6 +31,9 @@ public class UserBookingService {
 
     @Autowired
     BookingAddOnCustomRepository bookingAddOnCustomRepository;
+
+    @Autowired
+    RoomInventoryCustomRepository roomInventoryCustomRepository;
 
     @Autowired
     AppUtil.Constants appUtilConstants;
@@ -44,8 +52,8 @@ public class UserBookingService {
             return appResponse.failureResponse(error.notAuthorized);
         }else{
             try{
-                return appResponse.successResponse(new CountResponse(userBookingCustomRepository.countBookings(),
-                        userBookingCustomRepository.getBookings(start, size)), "");
+                return appResponse.successResponse(new CountResponse(userBookingCustomRepository.count(),
+                        userBookingCustomRepository.get(start, size)), "");
             }catch (Exception e){
                 e.printStackTrace();
                 return appResponse.failureResponse(error.unknownErrorOccurred);
@@ -57,10 +65,9 @@ public class UserBookingService {
         if(user == null){
             return appResponse.failureResponse(error.notAuthorized);
         }else{
-            try {
-
-                if(roomService.getRoomIfExist(userBooking.getRoom_id()) != null){
-
+            Room room = roomService.getRoomIfExist(userBooking.getRoom_id());
+            if(room != null){
+                try {
                     if(userBooking.getDate_time_check_out().isBefore(userBooking.getDate_time_check_in())){
                         return appResponse.failureResponse(error.checkInOutTimeConflict);
                     }
@@ -69,15 +76,35 @@ public class UserBookingService {
                         return appResponse.failureResponse(error.advanceTotalConflict);
                     }
 
-                    userBookingCustomRepository.addBooking(userBooking);
+                    RoomInventory roomInventory = roomInventoryCustomRepository.get(room.getRoom_id());
+                    Map<String, Boolean> bookings = roomInventory.getBookings();
+
+                    LocalDate from = userBooking.getDate_time_check_in().toLocalDate();
+                    LocalDate to = userBooking.getDate_time_check_out().toLocalDate();
+
+                    while(from.isBefore(to)){
+                        if(bookings.getOrDefault(from.toString(), false)){
+                            return appResponse.failureResponse(error.roomNotAvailable);
+                        }
+                        from = from.plusDays(1);
+                    }
+
+                    userBooking = userBookingCustomRepository.add(userBooking);
+
+                    BookingAddOn bookingAddOn = new BookingAddOn();
+                    bookingAddOn.setBooking_id(userBooking.getBooking_id());
+
+                    bookingAddOnCustomRepository.add(bookingAddOn);
+
+                    roomInventoryCustomRepository.updateInventory(room.getRoom_id(), userBooking.getDate_time_check_in().toLocalDate(), userBooking.getDate_time_check_out().toLocalDate());
 
                     return appResponse.successResponse(success.bookingAdded);
-                }else{
-                    return appResponse.failureResponse(error.roomDoesNotExist);
+                }catch (Exception e){
+                    e.printStackTrace();
+                    return appResponse.failureResponse(error.bookingNotAdded);
                 }
-            }catch (Exception e){
-                e.printStackTrace();
-                return appResponse.failureResponse(error.bookingNotAdded);
+            }else{
+                return appResponse.failureResponse(error.roomDoesNotExist);
             }
         }
     }
@@ -98,7 +125,7 @@ public class UserBookingService {
                         return appResponse.failureResponse(error.advanceTotalConflict);
                     }
 
-                    userBookingCustomRepository.updateBooking(userBooking);
+                    userBookingCustomRepository.update(userBooking);
 
                     return appResponse.successResponse(success.bookingUpdated);
                 }else{
@@ -116,7 +143,7 @@ public class UserBookingService {
             return appResponse.failureResponse(error.notAuthorized);
         }else{
             try{
-                UserBooking userBooking = userBookingCustomRepository.getBookingWithId(id);
+                UserBooking userBooking = userBookingCustomRepository.getById(id);
 
                 if(userBooking == null){
                     return appResponse.failureResponse(error.bookingDoesNotExist);
@@ -142,7 +169,7 @@ public class UserBookingService {
             return appResponse.failureResponse(error.notAuthorized);
         }else{
             try{
-                UserBooking userBooking = userBookingCustomRepository.getBookingWithId(id);
+                UserBooking userBooking = userBookingCustomRepository.getById(id);
 
                 if(userBooking == null){
                     return appResponse.failureResponse(error.bookingDoesNotExist);

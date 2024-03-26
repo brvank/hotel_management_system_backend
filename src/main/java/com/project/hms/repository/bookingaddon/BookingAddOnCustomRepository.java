@@ -29,11 +29,15 @@ public class BookingAddOnCustomRepository {
 
         List<BookingAddOn> bookingAddOnList = mongoTemplate.find(query, BookingAddOn.class);
 
-        if(bookingAddOnList.size() > 0){
-            return bookingAddOnList.get(0);
-        }else{
+        if(bookingAddOnList.isEmpty()){
             return null;
+        }else{
+            return bookingAddOnList.get(0);
         }
+    }
+
+    public void add(BookingAddOn bookingAddOn){
+        bookingAddOnRepository.save(bookingAddOn);
     }
 
     //TODO: written very raw : need to be optimized

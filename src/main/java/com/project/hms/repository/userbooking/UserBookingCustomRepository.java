@@ -18,11 +18,11 @@ public class UserBookingCustomRepository {
     @Autowired
     EntityManager entityManager;
 
-    public void addBooking(UserBooking userBooking){
-        userBookingRepository.save(userBooking);
+    public UserBooking add(UserBooking userBooking){
+        return userBookingRepository.save(userBooking);
     }
 
-    public List<UserBooking> getBookings(int start, int size){
+    public List<UserBooking> get(int start, int size){
         if(start < 0){
             start = 0;
         }
@@ -42,12 +42,12 @@ public class UserBookingCustomRepository {
         return entityManager.createQuery(bookingCriteriaQuery).setFirstResult(start).setMaxResults(size).getResultList();
     }
 
-    public UserBooking getBookingWithId(int id){
+    public UserBooking getById(int id){
         return userBookingRepository.findById(id).orElse(null);
     }
 
     @Transactional
-    public void updateBooking(UserBooking userBooking){
+    public void update(UserBooking userBooking){
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
         CriteriaUpdate<UserBooking> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(UserBooking.class);
@@ -71,7 +71,7 @@ public class UserBookingCustomRepository {
         entityManager.createQuery(criteriaUpdate).executeUpdate();
     }
 
-    public Long countBookings(){
+    public Long count(){
         return userBookingRepository.count();
     }
 }
