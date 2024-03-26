@@ -1,12 +1,14 @@
-package com.project.hms.model;
+package com.project.hms.model_rdb;
 
+import com.project.hms.model_nrdb.BookingAddOn;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "table_booking")
-public class Booking {
+public class UserBooking {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,19 +26,17 @@ public class Booking {
     private float advance_amount;
     private float gst;
 
-    public Booking() {
-        this.guest_name = "";
-        this.phone_number = "";
-        this.date_time_check_in = null;
-        this.date_time_check_out = null;
-        this.person_count = 0;
-        this.room_id = 0;
-        this.total_price = 0;
-        this.advance_amount = 0;
-        this.gst = 0;
+    @Transient
+    private BookingAddOn bookingAddOn;
+
+    @Transient Room room;
+
+    public UserBooking() {
+
     }
 
-    public Booking(String guest_name, String phone_number, LocalDateTime date_time_check_in, LocalDateTime date_time_check_out, int person_count, int room_id, float total_price, float advance_amount, float gst) {
+    public UserBooking(int booking_id, String guest_name, String phone_number, LocalDateTime date_time_check_in, LocalDateTime date_time_check_out, int person_count, int room_id, float total_price, float advance_amount, float gst) {
+        this.booking_id = booking_id;
         this.guest_name = guest_name;
         this.phone_number = phone_number;
         this.date_time_check_in = date_time_check_in;
@@ -126,5 +126,21 @@ public class Booking {
 
     public void setGst(float gst) {
         this.gst = gst;
+    }
+
+    public BookingAddOn getBookingAddOn() {
+        return bookingAddOn;
+    }
+
+    public void setBookingAddOn(BookingAddOn bookingAddOn) {
+        this.bookingAddOn = bookingAddOn;
+    }
+
+    public Room getRoom() {
+        return room;
+    }
+
+    public void setRoom(Room room) {
+        this.room = room;
     }
 }

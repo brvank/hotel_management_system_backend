@@ -1,9 +1,8 @@
 package com.project.hms.service;
 
-import com.project.hms.model_rdb.Room;
 import com.project.hms.model_rdb.RoomCategory;
 import com.project.hms.model_rdb.User;
-import com.project.hms.repository.room.RoomCustomRepository;
+import com.project.hms.repository.roomcategory.RoomCategoryCustomRepository;
 import com.project.hms.utility.AppMessages;
 import com.project.hms.utility.AppResponse;
 import com.project.hms.utility.AppUtil;
@@ -16,10 +15,10 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class RoomService {
+public class RoomCategoryService {
 
     @Autowired
-    RoomCustomRepository roomCustomRepository;
+    RoomCategoryCustomRepository roomCategoryCustomRepository;
 
     @Autowired
     AppUtil.Constants appUtilConstants;
@@ -33,23 +32,23 @@ public class RoomService {
     @Autowired
     AppMessages.Error error;
 
-    List<Room> rooms = new ArrayList<>();
+    List<RoomCategory> roomCategories = new ArrayList<>();
 
     public ResponseEntity<Object> get(User user){
         if(user == null){
             return appResponse.failureResponse(error.notAuthorized);
         }else{
-            rooms = roomCustomRepository.get();
-            return appResponse.successResponse(rooms, "");
+            roomCategories = roomCategoryCustomRepository.get();
+            return appResponse.successResponse(roomCategories, "");
         }
     }
 
-    public ResponseEntity<Object> add(Room room, User user){
+    public ResponseEntity<Object> add(RoomCategory roomCategory, User user){
         if(user == null){
             return appResponse.failureResponse(error.notAuthorized);
         }else{
             try {
-                roomCustomRepository.add(room);
+                roomCategoryCustomRepository.add(roomCategory);
 
                 return appResponse.successResponse(success.roomAdded);
             }catch (Exception e){
@@ -59,16 +58,16 @@ public class RoomService {
         }
     }
 
-    public ResponseEntity<Object> update(Room room, User user){
+    public ResponseEntity<Object> update(RoomCategory roomCategory, User user){
         if(user == null){
             return appResponse.failureResponse(error.notAuthorized);
         }else{
             try {
 
-                Room roomExists = getRoomIfExist(room.getRoom_id());
+                RoomCategory roomCategoryExists = getRoomCategoryIfExist(roomCategory.getRoom_category_id());
 
-                if(roomExists != null){
-                    roomCustomRepository.update(room);
+                if(roomCategoryExists != null){
+                    roomCategoryCustomRepository.update(roomCategory);
 
                     return appResponse.successResponse(success.roomCategoryUpdated);
                 }else{
@@ -81,17 +80,17 @@ public class RoomService {
         }
     }
 
-    public Room getRoomIfExist(int id){
-        for(Room room : rooms){
-            if(Objects.equals(room.getRoom_category().getRoom_category_id(), id)){
-                return room;
+    public RoomCategory getRoomCategoryIfExist(int id){
+        for(RoomCategory roomCategory : roomCategories){
+            if(Objects.equals(roomCategory.getRoom_category_id(), id)){
+                return roomCategory;
             }
         }
 
         //fallback
-        rooms = roomCustomRepository.get();
-        for(Room room : rooms){
-            if(Objects.equals(room.getRoom_category().getRoom_category_id(), id)){
+        roomCategories = roomCategoryCustomRepository.get();
+        for(RoomCategory room : roomCategories){
+            if(Objects.equals(room.getRoom_category_id(), id)){
                 return room;
             }
         }

@@ -1,9 +1,8 @@
-package com.project.hms.repository;
+package com.project.hms.repository.user;
 
-import com.project.hms.model.User;
+import com.project.hms.model_rdb.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.*;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

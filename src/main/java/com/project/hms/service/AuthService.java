@@ -1,7 +1,7 @@
 package com.project.hms.service;
 
-import com.project.hms.model.User;
-import com.project.hms.repository.UserCustomRepository;
+import com.project.hms.model_rdb.User;
+import com.project.hms.repository.user.UserCustomRepository;
 import com.project.hms.response_model.AuthResponse;
 import com.project.hms.utility.AppMessages;
 import com.project.hms.utility.AppResponse;

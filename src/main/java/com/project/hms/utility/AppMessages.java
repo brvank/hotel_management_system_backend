@@ -8,38 +8,35 @@ public class AppMessages {
     @Component
     public class Success{
         public final String roomAdded = "Room added successfully!"
-                , userUpdated = "User updated Successfully!"
-                , userDeleted = "User deleted Successfully!"
-                , loggedIn = "Logged in successfully!"
-                , bookingAdded = "Booking created successfully!"
-                , bookingUpdated = "Booking updated Successfully!"
-                , channelDeleted = "Channel deleted Successfully!"
-                , productAdded = "Product added successfully!"
-                , productUpdated = "Product updated Successfully!"
-                , productAssigned = "Product assigned Successfully!"
-                , productDeleted = "Product deleted Successfully!";
+                , roomUpdated = "Room updated successfully!"
+
+                , roomCategoryAdded = "Room Category added successfully!"
+                , roomCategoryUpdated = "Room Category updated successfully!"
+
+                , bookingAdded = "Booking added successfully!"
+                , bookingUpdated = "Booking updated successfully!"
+
+                , addOnUpdate = "Add On added successfully!"
+
+                , loggedIn = "Logged in successfully!";
     }
 
     @Component
     public class Error{
         public final String roomNotAdded = "Error saving Room. Room not added!"
-                , userNotUpdated = "Error saving User. User not updated!"
-                , userNotDeleted = "Error deleting User. User not deleted!"
-                , userNameExist = "User name already exists!"
                 , roomDoesNotExist = "Room doesn't exist!"
-                , userCantBeDeleted = "This user can't be deleted!"
-                , userIsNotSalesPerson = "Product can't be assigned. This user is not a sales person!"
+                , roomNotUpdated = "Error updating Room. Room not updated!"
+
+                , roomCategoryNotAdded = "Error saving Room Category. Room Category not added!"
+                , roomCategoryDoesNotExist = "Room Category doesn't exist!"
+                , roomCategoryNotUpdated = "Error updating Room Category. Room Category not updated!"
+
                 , bookingNotAdded = "Error saving Booking. Booking not added!"
-                , channelNotUpdated = "Error saving Channel. Channel not updated!"
-                , channelNotDeleted = "Error deleting Channel. Channel not deleted!"
-                , channelExist = "Channel already exists!"
                 , bookingDoesNotExist = "Booking doesn't exist!"
-                , productNotAdded = "Error saving Product. Product not added!"
-                , productNotUpdated = "Error saving Product. Product not updated!"
-                , productNotAssigned = "Error assigning Product. Product not assigned!"
-                , productNotDeleted = "Error deleting Product. Product not deleted!"
-                , productExist = "Product already exists!"
-                , productDoesNotExist = "Product doesn't exist!"
+                , bookingNotUpdated = "Error updating Booking. Booking not updated!"
+
+                , addOnNotUpdated = "Add On Update failed!"
+
                 , invalidCredentials = "Invalid login credentials!"
                 , provideAllFields = "Provide all the fields!"
                 , notAuthorized = "Authentication failed. Please re-login again"

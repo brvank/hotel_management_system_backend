@@ -1,4 +1,4 @@
-package com.project.hms.model;
+package com.project.hms.model_rdb;
 
 import jakarta.persistence.*;
 

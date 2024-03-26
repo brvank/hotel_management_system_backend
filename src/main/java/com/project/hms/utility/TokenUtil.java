@@ -1,6 +1,6 @@
 package com.project.hms.utility;
 
-import com.project.hms.model.User;
+import com.project.hms.model_rdb.User;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
