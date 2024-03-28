@@ -5,6 +5,7 @@ import com.project.hms.model_rdb.Room;
 import com.project.hms.model_rdb.RoomCategory;
 import com.project.hms.model_rdb.User;
 import com.project.hms.repository.room.RoomCustomRepository;
+import com.project.hms.repository.roomcategory.RoomCategoryCustomRepository;
 import com.project.hms.repository.roominventory.RoomInventoryCustomRepository;
 import com.project.hms.utility.AppMessages;
 import com.project.hms.utility.AppResponse;
@@ -26,6 +27,9 @@ public class RoomService {
 
     @Autowired
     RoomInventoryCustomRepository roomInventoryCustomRepository;
+
+    @Autowired
+    RoomCategoryCustomRepository roomCategoryCustomRepository;
 
     @Autowired
     AppUtil.Constants appUtilConstants;
@@ -55,6 +59,14 @@ public class RoomService {
             return appResponse.failureResponse(error.notAuthorized);
         }else{
             try {
+                if(room.getRoom_category() == null){
+                    return appResponse.failureResponse(error.roomCategoryDoesNotExist);
+                }
+
+                if(roomCategoryCustomRepository.get(room.getRoom_category().getRoom_category_id()) == null){
+                    return appResponse.failureResponse(error.roomCategoryDoesNotExist);
+                }
+
                 room = roomCustomRepository.add(room);
 
                 RoomInventory roomInventory = new RoomInventory();

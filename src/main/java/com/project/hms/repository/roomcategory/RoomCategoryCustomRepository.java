@@ -34,6 +34,10 @@ public class RoomCategoryCustomRepository {
         return list;
     }
 
+    public RoomCategory get(int id){
+        return roomCategoryRepository.findById(id).orElse(null);
+    }
+
     @Transactional
     public void update(RoomCategory roomCategory){
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
