@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 public class Room {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int room_id;
 
     @Column(unique = true)

@@ -10,6 +10,7 @@ import java.util.List;
 public class RoomCategory {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int room_category_id;
 
     @Column(unique = true)
