@@ -39,6 +39,8 @@ public class UserBookingCustomRepository {
 
         bookingCriteriaQuery.select(bookingRoot);
 
+        bookingCriteriaQuery.orderBy(criteriaBuilder.desc(bookingRoot.get("booking_id")));
+
         return entityManager.createQuery(bookingCriteriaQuery).setFirstResult(start).setMaxResults(size).getResultList();
     }
 

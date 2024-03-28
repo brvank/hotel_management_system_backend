@@ -9,7 +9,7 @@ public class AddOn {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int addon_id;
 
     @Column(unique = true)
     @Nonnull
@@ -22,8 +22,8 @@ public class AddOn {
     private double addon_price;
 
 
-    public AddOn(int id, String addon_name, String addon_info, double addon_price) {
-        this.id = id;
+    public AddOn(int addon_id, String addon_name, String addon_info, double addon_price) {
+        this.addon_id = addon_id;
         this.addon_name = addon_name;
         this.addon_info = addon_info;
         this.addon_price = addon_price;
@@ -32,12 +32,12 @@ public class AddOn {
     public AddOn() {
     }
 
-    public int getId() {
-        return id;
+    public int getAddon_id() {
+        return addon_id;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAddon_id(int addon_id) {
+        this.addon_id = addon_id;
     }
 
     public String getAddon_name() {

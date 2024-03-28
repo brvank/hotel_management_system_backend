@@ -7,10 +7,7 @@ import java.util.Map;
 
 @Document(collection = "collection_booking_addon")
 public class BookingAddOn {
-
     @Id
-    private int id;
-
     private int booking_id;
 
     /*
@@ -28,18 +25,9 @@ public class BookingAddOn {
     public BookingAddOn() {
     }
 
-    public BookingAddOn(int id, int booking_id, Map<String, Map<Double, Integer>> booking_addons) {
-        this.id = id;
+    public BookingAddOn(int booking_id, Map<String, Map<Double, Integer>> booking_addons) {
         this.booking_id = booking_id;
         this.booking_addons = booking_addons;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getBooking_id() {

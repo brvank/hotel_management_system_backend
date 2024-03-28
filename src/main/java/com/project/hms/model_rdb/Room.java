@@ -15,15 +15,12 @@ public class Room {
     @Nonnull
     private String room_number;
 
-    @ManyToOne
-    @JoinColumn(name = "room_category_id")
-    @Nonnull
-    private RoomCategory room_category;
+    private int room_category_id;
 
-    public Room(int room_id, String room_number, RoomCategory room_category) {
+    public Room(int room_id, String room_number, int room_category_id) {
         this.room_id = room_id;
         this.room_number = room_number;
-        this.room_category = room_category;
+        this.room_category_id = room_category_id;
     }
 
     public Room() {
@@ -45,11 +42,11 @@ public class Room {
         this.room_number = room_number;
     }
 
-    public RoomCategory getRoom_category() {
-        return room_category;
+    public int getRoom_category_id() {
+        return room_category_id;
     }
 
-    public void setRoom_category(RoomCategory room_category) {
-        this.room_category = room_category;
+    public void setRoom_category_id(int room_category_id) {
+        this.room_category_id = room_category_id;
     }
 }

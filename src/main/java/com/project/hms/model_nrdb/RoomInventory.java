@@ -10,8 +10,6 @@ import java.util.Map;
 public class RoomInventory {
 
     @Id
-    private int id;
-
     private int room_id;
 
     /*
@@ -28,18 +26,9 @@ public class RoomInventory {
     public RoomInventory() {
     }
 
-    public RoomInventory(int id, int room_id, Map<String, Boolean> bookings) {
-        this.id = id;
+    public RoomInventory(int room_id, Map<String, Boolean> bookings) {
         this.room_id = room_id;
         this.bookings = bookings;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getRoom_id() {

@@ -16,7 +16,8 @@ public class AppMessages {
                 , bookingAdded = "Booking added successfully!"
                 , bookingUpdated = "Booking updated successfully!"
 
-                , addOnUpdate = "Add On added successfully!"
+                , addOnAdded = "AddOn added successfully!"
+                , addOnUpdated = "Add On added successfully!"
 
                 , loggedIn = "Logged in successfully!";
     }
@@ -36,6 +37,8 @@ public class AppMessages {
                 , bookingDoesNotExist = "Booking doesn't exist!"
                 , bookingNotUpdated = "Error updating Booking. Booking not updated!"
 
+                , addOnNotAdded = "Error saving AddOn. AddOn not added!"
+                , addOnDoesNotExist = "AddOn doesn't exist!"
                 , addOnNotUpdated = "Add On Update failed!"
 
                 , invalidCredentials = "Invalid login credentials!"
@@ -45,6 +48,7 @@ public class AppMessages {
                 , permissionDenied = "Permission denied. You are not allowed to perform this task!"
                 , unknownErrorOccurred = "Unknown error occurred at our end. Please try later!"
                 , checkInOutTimeConflict = "Check out time must be after check in time!"
+                , checkInTimeConflict = "Check in time must be after current time!"
                 , advanceTotalConflict = "Advance must be less than or equal to total amount!";
     }
 }

@@ -59,11 +59,8 @@ public class RoomService {
             return appResponse.failureResponse(error.notAuthorized);
         }else{
             try {
-                if(room.getRoom_category() == null){
-                    return appResponse.failureResponse(error.roomCategoryDoesNotExist);
-                }
 
-                if(roomCategoryCustomRepository.get(room.getRoom_category().getRoom_category_id()) == null){
+                if(roomCategoryCustomRepository.get(room.getRoom_category_id()) == null){
                     return appResponse.failureResponse(error.roomCategoryDoesNotExist);
                 }
 
@@ -107,7 +104,7 @@ public class RoomService {
 
     public Room getRoomIfExist(int id){
         for(Room room : rooms){
-            if(Objects.equals(room.getRoom_category().getRoom_category_id(), id)){
+            if(Objects.equals(room.getRoom_id(), id)){
                 return room;
             }
         }
@@ -115,7 +112,7 @@ public class RoomService {
         //fallback
         rooms = roomCustomRepository.get();
         for(Room room : rooms){
-            if(Objects.equals(room.getRoom_category().getRoom_category_id(), id)){
+            if(Objects.equals(room.getRoom_id(), id)){
                 return room;
             }
         }

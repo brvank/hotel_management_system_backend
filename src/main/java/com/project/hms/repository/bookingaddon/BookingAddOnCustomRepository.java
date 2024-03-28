@@ -41,30 +41,30 @@ public class BookingAddOnCustomRepository {
     }
 
     //TODO: written very raw : need to be optimized
-    public boolean update(int bookingId, AddOn addOn){
+    public void addMore(int bookingId, AddOn addOn){
         BookingAddOn bookingAddOn = get(bookingId);
 
-        if(bookingAddOn != null){
-            Map<String, Map<Double, Integer>> bookingAddOnMap = bookingAddOn.getBooking_addons();
-            if (bookingAddOnMap == null) {
-                bookingAddOnMap = new HashMap<>();
-            }
-
-            Map<Double, Integer> priceCountMap = bookingAddOnMap.getOrDefault(addOn.getAddon_name(), new HashMap<>());
-            int prevCount = priceCountMap.getOrDefault(addOn.getAddon_price(), 0);
-            priceCountMap.put(addOn.getAddon_price(), prevCount + 1);
-            bookingAddOnMap.put(addOn.getAddon_name(), priceCountMap);
-
-            Update update = new Update().set("booking_addons", bookingAddOnMap);
-//            Update update = new Update().set("booking_addons." + addOn.getAddon_name() + "." + addOn.getAddon_price(), prevCount + 1);
-            Query query = new Query(Criteria.where("booking_id").is(bookingId));
-
-            mongoTemplate.upsert(query, update, BookingAddOn.class);
-
-            return true;
-        }else{
-            return false;
+        if(bookingAddOn == null){
+            bookingAddOn = new BookingAddOn();
+            bookingAddOn.setBooking_id(bookingId);
+            bookingAddOn.setBooking_addons(new HashMap<>());
         }
+
+        Map<String, Map<Double, Integer>> bookingAddOnMap = bookingAddOn.getBooking_addons();
+        if (bookingAddOnMap == null) {
+            bookingAddOnMap = new HashMap<>();
+        }
+
+        Map<Double, Integer> priceCountMap = bookingAddOnMap.getOrDefault(addOn.getAddon_name(), new HashMap<>());
+        int prevCount = priceCountMap.getOrDefault(addOn.getAddon_price(), 0);
+        priceCountMap.put(addOn.getAddon_price(), prevCount + 1);
+        bookingAddOnMap.put(addOn.getAddon_name(), priceCountMap);
+
+        Update update = new Update().set("booking_addons", bookingAddOnMap);
+//            Update update = new Update().set("booking_addons." + addOn.getAddon_name() + "." + addOn.getAddon_price(), prevCount + 1);
+        Query query = new Query(Criteria.where("booking_id").is(bookingId));
+
+        mongoTemplate.upsert(query, update, BookingAddOn.class);
     }
 
 }

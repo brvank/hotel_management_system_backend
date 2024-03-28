@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +43,22 @@ public class RoomInventoryCustomRepository {
         }
     }
 
-    public void add(RoomInventory roomInventory){
-        roomInventoryRepository.save(roomInventory);
+    public RoomInventory getOrCreateNew(int id){
+        RoomInventory roomInventory = get(id);
+
+        if(roomInventory == null){
+            roomInventory = new RoomInventory();
+            roomInventory.setRoom_id(id);
+            roomInventory.setBookings(new HashMap<>());
+
+            return add(roomInventory);
+        }else{
+            return roomInventory;
+        }
+    }
+
+    public RoomInventory add(RoomInventory roomInventory){
+        return roomInventoryRepository.save(roomInventory);
     }
 
     public boolean updateInventory(int id, LocalDate from, LocalDate to){
@@ -55,6 +70,7 @@ public class RoomInventoryCustomRepository {
 
             while(from.isBefore(to)){
                 bookings.put(from.toString(), true);
+                from = from.plusDays(1);
             }
 
             Query query = new Query(Criteria.where("room_id").is(id));

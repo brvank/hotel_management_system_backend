@@ -6,6 +6,7 @@ import com.project.hms.model_rdb.AddOn;
 import com.project.hms.model_rdb.UserBooking;
 import com.project.hms.model_rdb.Room;
 import com.project.hms.model_rdb.User;
+import com.project.hms.repository.addon.AddOnCustomRepository;
 import com.project.hms.repository.bookingaddon.BookingAddOnCustomRepository;
 import com.project.hms.repository.roominventory.RoomInventoryCustomRepository;
 import com.project.hms.repository.userbooking.UserBookingCustomRepository;
@@ -18,6 +19,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -34,6 +37,9 @@ public class UserBookingService {
 
     @Autowired
     RoomInventoryCustomRepository roomInventoryCustomRepository;
+
+    @Autowired
+    AddOnCustomRepository addOnCustomRepository;
 
     @Autowired
     AppUtil.Constants appUtilConstants;
@@ -68,6 +74,10 @@ public class UserBookingService {
             Room room = roomService.getRoomIfExist(userBooking.getRoom_id());
             if(room != null){
                 try {
+                    if(userBooking.getDate_time_check_in().isBefore(LocalDateTime.now())){
+                        return appResponse.failureResponse(error.checkInTimeConflict);
+                    }
+
                     if(userBooking.getDate_time_check_out().isBefore(userBooking.getDate_time_check_in())){
                         return appResponse.failureResponse(error.checkInOutTimeConflict);
                     }
@@ -76,7 +86,7 @@ public class UserBookingService {
                         return appResponse.failureResponse(error.advanceTotalConflict);
                     }
 
-                    RoomInventory roomInventory = roomInventoryCustomRepository.get(room.getRoom_id());
+                    RoomInventory roomInventory = roomInventoryCustomRepository.getOrCreateNew(room.getRoom_id());
                     Map<String, Boolean> bookings = roomInventory.getBookings();
 
                     LocalDate from = userBooking.getDate_time_check_in().toLocalDate();
@@ -93,6 +103,7 @@ public class UserBookingService {
 
                     BookingAddOn bookingAddOn = new BookingAddOn();
                     bookingAddOn.setBooking_id(userBooking.getBooking_id());
+                    bookingAddOn.setBooking_addons(new HashMap<>());
 
                     bookingAddOnCustomRepository.add(bookingAddOn);
 
@@ -129,7 +140,7 @@ public class UserBookingService {
                         return appResponse.failureResponse(error.advanceTotalConflict);
                     }
 
-                    RoomInventory roomInventory = roomInventoryCustomRepository.get(room.getRoom_id());
+                    RoomInventory roomInventory = roomInventoryCustomRepository.getOrCreateNew(room.getRoom_id());
                     Map<String, Boolean> bookings = roomInventory.getBookings();
 
                     LocalDate from = oldBooking.getDate_time_check_in().toLocalDate();
@@ -215,10 +226,11 @@ public class UserBookingService {
                 if(userBooking == null){
                     return appResponse.failureResponse(error.bookingDoesNotExist);
                 }else{
-                    if(bookingAddOnCustomRepository.update(id, addOn)){
-                        return appResponse.successResponse(success.addOnUpdate);
+                    if(addOnCustomRepository.get(addOn.getAddon_id()) != null){
+                        bookingAddOnCustomRepository.addMore(id, addOn);
+                        return appResponse.successResponse(success.addOnUpdated);
                     }else{
-                        return appResponse.failureResponse(error.addOnNotUpdated);
+                        return appResponse.failureResponse(error.addOnDoesNotExist);
                     }
                 }
             }catch (Exception e){

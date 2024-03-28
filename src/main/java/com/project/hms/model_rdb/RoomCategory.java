@@ -23,15 +23,14 @@ public class RoomCategory {
     @Nonnull
     private String room_category_info;
 
-    @OneToMany(mappedBy = "room_category")
+    @Transient
     private List<Room> roomList;
 
-    public RoomCategory(int room_category_id, String room_category_name, double room_category_price, String room_category_info, List<Room> roomList) {
+    public RoomCategory(int room_category_id, String room_category_name, double room_category_price, String room_category_info) {
         this.room_category_id = room_category_id;
         this.room_category_name = room_category_name;
         this.room_category_price = room_category_price;
         this.room_category_info = room_category_info;
-        this.roomList = roomList;
     }
 
     public RoomCategory() {
