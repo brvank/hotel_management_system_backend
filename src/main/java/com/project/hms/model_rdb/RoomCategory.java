@@ -1,5 +1,6 @@
 package com.project.hms.model_rdb;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -12,10 +13,13 @@ public class RoomCategory {
     private int room_category_id;
 
     @Column(unique = true)
+    @Nonnull
     private String room_category_name;
 
+    @Nonnull
     private double room_category_price;
 
+    @Nonnull
     private String room_category_info;
 
     @OneToMany(mappedBy = "room_category")

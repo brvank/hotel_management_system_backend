@@ -1,5 +1,6 @@
 package com.project.hms.model_rdb;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,10 +12,13 @@ public class User {
     private int user_id;
 
     @Column(unique = true)
+    @Nonnull
     private String user_name;
 
+    @Nonnull
     private String user_password;
 
+    @Nonnull
     private int user_level;
 
     public User(){

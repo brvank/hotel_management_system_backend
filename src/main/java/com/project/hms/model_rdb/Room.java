@@ -1,5 +1,6 @@
 package com.project.hms.model_rdb;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 
 @Entity
@@ -10,10 +11,12 @@ public class Room {
     private int room_id;
 
     @Column(unique = true)
+    @Nonnull
     private String room_number;
 
     @ManyToOne
     @JoinColumn(name = "room_category_id")
+    @Nonnull
     private RoomCategory room_category;
 
     public Room(int room_id, String room_number, RoomCategory room_category) {

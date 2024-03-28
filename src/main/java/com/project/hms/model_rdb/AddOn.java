@@ -1,5 +1,6 @@
 package com.project.hms.model_rdb;
 
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -13,10 +14,13 @@ public class AddOn {
     private int id;
 
     @Column(unique = true)
+    @Nonnull
     private String addon_name;
 
+    @Nonnull
     private String addon_info;
 
+    @Nonnull
     private double addon_price;
 
 

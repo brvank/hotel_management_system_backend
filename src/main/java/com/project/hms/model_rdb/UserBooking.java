@@ -1,6 +1,7 @@
 package com.project.hms.model_rdb;
 
 import com.project.hms.model_nrdb.BookingAddOn;
+import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -14,16 +15,31 @@ public class UserBooking {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int booking_id;
 
+    @Nonnull
     private String guest_name;
 
+    @Nonnull
     private String phone_number;
 
+    @Nonnull
     private LocalDateTime date_time_check_in;
+
+    @Nonnull
     private LocalDateTime date_time_check_out;
+
+    @Nonnull
     private int person_count;
+
+    @Nonnull
     private int room_id;
+
+    @Nonnull
     private float total_price;
+
+    @Nonnull
     private float advance_amount;
+
+    @Nonnull
     private float gst;
 
     @Transient
