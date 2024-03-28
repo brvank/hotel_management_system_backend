@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping(value = "api/v1/room")
+@RequestMapping(value = "api/v1/roomCategory")
 public class RoomCategoryController extends ParentController{
 
     @Autowired

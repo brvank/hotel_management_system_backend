@@ -6,9 +6,12 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +23,10 @@ public class RoomInventoryCustomRepository {
 
     @Autowired
     MongoTemplate mongoTemplate;
+
+    public List<RoomInventory> get(){
+        return roomInventoryRepository.findAll();
+    }
 
     public RoomInventory get(int id){
         Query query = new Query();
@@ -83,6 +90,22 @@ public class RoomInventoryCustomRepository {
             return true;
         }else{
             return false;
+        }
+    }
+
+    public void removeAllBefore(Map<String, Boolean> bookings, LocalDate upTo) throws DateTimeParseException {
+        bookings.entrySet().removeIf(entry -> upTo.isAfter(LocalDate.parse(entry.getKey())));
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void deleteOldBookings() {
+        LocalDate tenDaysAgo = LocalDate.now().minusDays(10);
+
+        List<RoomInventory> roomInventories = roomInventoryRepository.findAll();
+
+        for(RoomInventory roomInventory : roomInventories){
+            removeAllBefore(roomInventory.getBookings(), tenDaysAgo);
+            mongoTemplate.save(roomInventory);
         }
     }
 

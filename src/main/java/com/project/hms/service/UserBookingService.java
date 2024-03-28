@@ -96,7 +96,8 @@ public class UserBookingService {
 
                     bookingAddOnCustomRepository.add(bookingAddOn);
 
-                    roomInventoryCustomRepository.updateInventory(room.getRoom_id(), userBooking.getDate_time_check_in().toLocalDate(), userBooking.getDate_time_check_out().toLocalDate());
+                    roomInventoryCustomRepository.updateInventory(room.getRoom_id(),
+                            userBooking.getDate_time_check_in().toLocalDate(), userBooking.getDate_time_check_out().toLocalDate());
 
                     return appResponse.successResponse(success.bookingAdded);
                 }catch (Exception e){
@@ -115,7 +116,10 @@ public class UserBookingService {
         }else{
             try {
 
-                if(roomService.getRoomIfExist(userBooking.getRoom_id()) != null){
+                Room room = roomService.getRoomIfExist(userBooking.getRoom_id());
+                UserBooking oldBooking = userBookingCustomRepository.getById(userBooking.getBooking_id());
+
+                if(room != null){
 
                     if(userBooking.getDate_time_check_out().isBefore(userBooking.getDate_time_check_in())){
                         return appResponse.failureResponse(error.checkInOutTimeConflict);
@@ -125,15 +129,52 @@ public class UserBookingService {
                         return appResponse.failureResponse(error.advanceTotalConflict);
                     }
 
-                    userBookingCustomRepository.update(userBooking);
+                    RoomInventory roomInventory = roomInventoryCustomRepository.get(room.getRoom_id());
+                    Map<String, Boolean> bookings = roomInventory.getBookings();
 
-                    return appResponse.successResponse(success.bookingUpdated);
+                    LocalDate from = oldBooking.getDate_time_check_in().toLocalDate();
+                    LocalDate to = oldBooking.getDate_time_check_out().toLocalDate();
+
+                    //remove old booking from cache
+                    while(from.isBefore(to)){
+                        bookings.remove(from.toString());
+                        from = from.plusDays(1);
+                    }
+
+                    from = userBooking.getDate_time_check_in().toLocalDate();
+                    to = userBooking.getDate_time_check_out().toLocalDate();
+
+                    //check for room availability
+                    while(from.isBefore(to)){
+                        if(bookings.getOrDefault(from.toString(), false)){
+                            return appResponse.failureResponse(error.roomNotAvailable);
+                        }
+                        from = from.plusDays(1);
+                    }
+
+                    //room available: remove old allotment
+                    if(!roomInventoryCustomRepository.deduceInventory(room.getRoom_id(),
+                            oldBooking.getDate_time_check_in().toLocalDate(), oldBooking.getDate_time_check_out().toLocalDate())){
+                        return appResponse.failureResponse(error.roomNotAvailable);
+                    }
+
+                    //add new allotment
+                    if(roomInventoryCustomRepository.updateInventory(room.getRoom_id(),
+                            userBooking.getDate_time_check_in().toLocalDate(), userBooking.getDate_time_check_out().toLocalDate())){
+
+                        //save booking
+                        userBookingCustomRepository.update(userBooking);
+
+                        return appResponse.successResponse(success.bookingUpdated);
+                    }else{
+                        return appResponse.failureResponse(error.roomNotAvailable);
+                    }
                 }else{
                     return appResponse.failureResponse(error.roomDoesNotExist);
                 }
             }catch (Exception e){
                 e.printStackTrace();
-                return appResponse.failureResponse(error.bookingNotAdded);
+                return appResponse.failureResponse(error.bookingNotUpdated);
             }
         }
     }
