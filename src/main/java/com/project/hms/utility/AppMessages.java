@@ -17,7 +17,7 @@ public class AppMessages {
                 , bookingUpdated = "Booking updated successfully!"
 
                 , addOnAdded = "AddOn added successfully!"
-                , addOnUpdated = "Add On added successfully!"
+                , addOnUpdated = "AddOn updated successfully!"
 
                 , loggedIn = "Logged in successfully!";
     }

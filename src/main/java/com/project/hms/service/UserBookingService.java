@@ -78,7 +78,7 @@ public class UserBookingService {
                         return appResponse.failureResponse(error.checkInTimeConflict);
                     }
 
-                    if(userBooking.getDate_time_check_out().isBefore(userBooking.getDate_time_check_in())){
+                    if(!userBooking.getDate_time_check_in().isBefore(userBooking.getDate_time_check_out())){
                         return appResponse.failureResponse(error.checkInOutTimeConflict);
                     }
 
@@ -132,7 +132,7 @@ public class UserBookingService {
 
                 if(room != null){
 
-                    if(userBooking.getDate_time_check_out().isBefore(userBooking.getDate_time_check_in())){
+                    if(!userBooking.getDate_time_check_in().isBefore(userBooking.getDate_time_check_out())){
                         return appResponse.failureResponse(error.checkInOutTimeConflict);
                     }
 
