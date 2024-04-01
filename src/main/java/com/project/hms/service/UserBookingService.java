@@ -129,6 +129,7 @@ public class UserBookingService {
 
                 Room room = roomService.getRoomIfExist(userBooking.getRoom_id());
                 UserBooking oldBooking = userBookingCustomRepository.getById(userBooking.getBooking_id());
+                Room oldRoom = roomService.getRoomIfExist(oldBooking.getRoom_id());
 
                 if(room != null){
 
@@ -140,7 +141,7 @@ public class UserBookingService {
                         return appResponse.failureResponse(error.advanceTotalConflict);
                     }
 
-                    RoomInventory roomInventory = roomInventoryCustomRepository.getOrCreateNew(room.getRoom_id());
+                    RoomInventory roomInventory = roomInventoryCustomRepository.getOrCreateNew(oldRoom.getRoom_id());
                     Map<String, Boolean> bookings = roomInventory.getBookings();
 
                     LocalDate from = oldBooking.getDate_time_check_in().toLocalDate();
@@ -150,6 +151,10 @@ public class UserBookingService {
                     while(from.isBefore(to)){
                         bookings.remove(from.toString());
                         from = from.plusDays(1);
+                    }
+
+                    if(room.getRoom_id() != oldRoom.getRoom_id()){
+                        bookings = roomInventoryCustomRepository.getOrCreateNew(room.getRoom_id()).getBookings();
                     }
 
                     from = userBooking.getDate_time_check_in().toLocalDate();
@@ -164,7 +169,7 @@ public class UserBookingService {
                     }
 
                     //room available: remove old allotment
-                    if(!roomInventoryCustomRepository.deduceInventory(room.getRoom_id(),
+                    if(!roomInventoryCustomRepository.deduceInventory(oldRoom.getRoom_id(),
                             oldBooking.getDate_time_check_in().toLocalDate(), oldBooking.getDate_time_check_out().toLocalDate())){
                         return appResponse.failureResponse(error.roomNotAvailable);
                     }
