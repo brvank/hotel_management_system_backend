@@ -1,5 +1,6 @@
 package com.project.hms.model_rdb;
 
+import com.project.hms.model_nrdb.RoomInventory;
 import jakarta.annotation.Nonnull;
 import jakarta.persistence.*;
 
@@ -16,6 +17,9 @@ public class Room {
     private String room_number;
 
     private int room_category_id;
+
+    @Transient
+    private RoomInventory roomInventory;
 
     public Room(int room_id, String room_number, int room_category_id) {
         this.room_id = room_id;
@@ -48,5 +52,13 @@ public class Room {
 
     public void setRoom_category_id(int room_category_id) {
         this.room_category_id = room_category_id;
+    }
+
+    public RoomInventory getRoomInventory() {
+        return roomInventory;
+    }
+
+    public void setRoomInventory(RoomInventory roomInventory) {
+        this.roomInventory = roomInventory;
     }
 }

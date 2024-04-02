@@ -45,7 +45,8 @@ public class UserBooking {
     @Transient
     private BookingAddOn bookingAddOn;
 
-    @Transient Room room;
+    @Transient
+    Room room;
 
     public UserBooking() {
 

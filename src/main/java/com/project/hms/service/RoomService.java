@@ -85,7 +85,6 @@ public class RoomService {
             return appResponse.failureResponse(error.notAuthorized);
         }else{
             try {
-
                 Room roomExists = getRoomIfExist(room.getRoom_id());
 
                 if(roomExists != null){
@@ -98,6 +97,29 @@ public class RoomService {
             }catch (Exception e){
                 e.printStackTrace();
                 return appResponse.failureResponse(error.roomCategoryNotUpdated);
+            }
+        }
+    }
+
+    public ResponseEntity<Object> getAvailability(int id, User user){
+        if(user == null){
+            return appResponse.failureResponse(error.notAuthorized);
+        }else{
+            try {
+                Room room = getRoomIfExist(id);
+
+                if(room == null){
+                    return appResponse.failureResponse(error.roomCategoryDoesNotExist);
+                }else{
+                    RoomInventory roomInventory = roomInventoryCustomRepository.get(id);
+
+                    room.setRoomInventory(roomInventory);
+
+                    return appResponse.successResponse(room, "");
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                return appResponse.failureResponse(error.unknownErrorOccurred);
             }
         }
     }

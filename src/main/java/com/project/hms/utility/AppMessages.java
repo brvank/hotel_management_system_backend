@@ -31,6 +31,7 @@ public class AppMessages {
 
                 , roomCategoryNotAdded = "Error saving Room Category. Room Category not added!"
                 , roomCategoryDoesNotExist = "Room Category doesn't exist!"
+                , roomInventoryDoesNotExist = "Room Inventory doesn't exist!"
                 , roomCategoryNotUpdated = "Error updating Room Category. Room Category not updated!"
 
                 , bookingNotAdded = "Error saving Booking. Booking not added!"
