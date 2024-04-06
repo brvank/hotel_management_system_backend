@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -221,7 +222,7 @@ public class UserBookingService {
         }
     }
 
-    public ResponseEntity<Object> addOn(int id, AddOn addOn, User user){
+    public ResponseEntity<Object> addOn(int id, Map<Integer, Integer> addonList, User user){
         if(user == null){
             return appResponse.failureResponse(error.notAuthorized);
         }else{
@@ -231,16 +232,48 @@ public class UserBookingService {
                 if(userBooking == null){
                     return appResponse.failureResponse(error.bookingDoesNotExist);
                 }else{
-                    if(addOnCustomRepository.get(addOn.getAddon_id()) != null){
-                        bookingAddOnCustomRepository.addMore(id, addOn);
-                        return appResponse.successResponse(success.addOnUpdated);
-                    }else{
-                        return appResponse.failureResponse(error.addOnDoesNotExist);
+                    List<AddOn> addOnList = addOnCustomRepository.get();
+
+                    Map<Integer, AddOn> addOnMap = new HashMap<>();
+
+                    for(AddOn addOn: addOnList){
+                        addOnMap.put(addOn.getAddon_id(), addOn);
                     }
+
+                    bookingAddOnCustomRepository.addMore(id, addonList, addOnMap);
+                    return appResponse.successResponse(success.addOnUpdated);
                 }
             }catch (Exception e){
                 e.printStackTrace();
                 return appResponse.failureResponse(error.addOnNotUpdated);
+            }
+        }
+    }
+
+    public ResponseEntity<Object> updateAddOnPrice(int id, User user){
+        if(user == null){
+            return appResponse.failureResponse(error.notAuthorized);
+        }else{
+            try{
+                UserBooking userBooking = userBookingCustomRepository.getById(id);
+
+                if(userBooking == null){
+                    return appResponse.failureResponse(error.bookingDoesNotExist);
+                }else{
+//                    List<AddOn> addOnList = addOnCustomRepository.get();
+//
+//                    Map<Integer, AddOn> addOnMap = new HashMap<>();
+//
+//                    for(AddOn addOn: addOnList){
+//                        addOnMap.put(addOn.getAddon_id(), addOn);
+//                    }
+//
+//                    bookingAddOnCustomRepository.addMore(id, addonList, addOnMap);
+                    return appResponse.successResponse(success.bookingAddOnPriceUpdated);
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+                return appResponse.failureResponse(error.bookingAddOnPriceNotUpdated);
             }
         }
     }

@@ -20,12 +20,12 @@ public class BookingAddOn {
     *   }
     *
     * */
-    private Map<String, Map<Double, Integer>> booking_addons;
+    private Map<Integer, Map<Double, Integer>> booking_addons;
 
     public BookingAddOn() {
     }
 
-    public BookingAddOn(int booking_id, Map<String, Map<Double, Integer>> booking_addons) {
+    public BookingAddOn(int booking_id, Map<Integer, Map<Double, Integer>> booking_addons) {
         this.booking_id = booking_id;
         this.booking_addons = booking_addons;
     }
@@ -38,11 +38,11 @@ public class BookingAddOn {
         this.booking_id = booking_id;
     }
 
-    public Map<String, Map<Double, Integer>> getBooking_addons() {
+    public Map<Integer, Map<Double, Integer>> getBooking_addons() {
         return booking_addons;
     }
 
-    public void setBooking_addons(Map<String, Map<Double, Integer>> booking_addons) {
+    public void setBooking_addons(Map<Integer, Map<Double, Integer>> booking_addons) {
         this.booking_addons = booking_addons;
     }
 }

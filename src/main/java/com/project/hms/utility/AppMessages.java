@@ -15,6 +15,7 @@ public class AppMessages {
 
                 , bookingAdded = "Booking added successfully!"
                 , bookingUpdated = "Booking updated successfully!"
+                , bookingAddOnPriceUpdated = "Booking addon prices updated successfully!"
 
                 , addOnAdded = "AddOn added successfully!"
                 , addOnUpdated = "AddOn updated successfully!"
@@ -37,6 +38,7 @@ public class AppMessages {
                 , bookingNotAdded = "Error saving Booking. Booking not added!"
                 , bookingDoesNotExist = "Booking doesn't exist!"
                 , bookingNotUpdated = "Error updating Booking. Booking not updated!"
+                , bookingAddOnPriceNotUpdated = "Error updating Booking. Booking addon prices not updated!"
 
                 , addOnNotAdded = "Error saving AddOn. AddOn not added!"
                 , addOnDoesNotExist = "AddOn doesn't exist!"

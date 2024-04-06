@@ -31,16 +31,25 @@ public class UserBooking {
     private int person_count;
 
     @Nonnull
+    private int child_count;
+
+    @Nonnull
     private int room_id;
 
     @Nonnull
-    private float total_price;
+    private double total_price;
 
     @Nonnull
-    private float advance_amount;
+    private double addon_price;
 
     @Nonnull
-    private float gst;
+    private double discount;
+
+    @Nonnull
+    private double advance_amount;
+
+    @Nonnull
+    private double gst;
 
     @Transient
     private BookingAddOn bookingAddOn;
@@ -52,15 +61,17 @@ public class UserBooking {
 
     }
 
-    public UserBooking(int booking_id, String guest_name, String phone_number, LocalDateTime date_time_check_in, LocalDateTime date_time_check_out, int person_count, int room_id, float total_price, float advance_amount, float gst) {
+    public UserBooking(int booking_id, String guest_name, String phone_number, LocalDateTime date_time_check_in, LocalDateTime date_time_check_out, int person_count, int child_count, int room_id, double total_price, double discount, double advance_amount, double gst) {
         this.booking_id = booking_id;
         this.guest_name = guest_name;
         this.phone_number = phone_number;
         this.date_time_check_in = date_time_check_in;
         this.date_time_check_out = date_time_check_out;
         this.person_count = person_count;
+        this.child_count = child_count;
         this.room_id = room_id;
         this.total_price = total_price;
+        this.discount = discount;
         this.advance_amount = advance_amount;
         this.gst = gst;
     }
@@ -113,6 +124,14 @@ public class UserBooking {
         this.person_count = person_count;
     }
 
+    public int getChild_count() {
+        return child_count;
+    }
+
+    public void setChild_count(int child_count) {
+        this.child_count = child_count;
+    }
+
     public int getRoom_id() {
         return room_id;
     }
@@ -121,27 +140,43 @@ public class UserBooking {
         this.room_id = room_id;
     }
 
-    public float getTotal_price() {
+    public double getTotal_price() {
         return total_price;
     }
 
-    public void setTotal_price(float total_price) {
+    public void setTotal_price(double total_price) {
         this.total_price = total_price;
     }
 
-    public float getAdvance_amount() {
+    public double getAddon_price() {
+        return addon_price;
+    }
+
+    public void setAddon_price(double addon_price) {
+        this.addon_price = addon_price;
+    }
+
+    public double getAdvance_amount() {
         return advance_amount;
     }
 
-    public void setAdvance_amount(float advance_amount) {
+    public void setAdvance_amount(double advance_amount) {
         this.advance_amount = advance_amount;
     }
 
-    public float getGst() {
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public double getGst() {
         return gst;
     }
 
-    public void setGst(float gst) {
+    public void setGst(double gst) {
         this.gst = gst;
     }
 

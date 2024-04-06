@@ -9,6 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Controller
 @RequestMapping(value = "api/v1/booking")
 public class UserBookingController extends ParentController{
@@ -37,8 +41,13 @@ public class UserBookingController extends ParentController{
     }
 
     @PutMapping("/addOn/{id}")
-    public ResponseEntity<Object> addOn(@PathVariable(value = "id") int id, @RequestBody AddOn addOn, HttpServletRequest header){
-        return userBookingService.addOn(id, addOn, headerToUser(header));
+    public ResponseEntity<Object> addOn(@PathVariable(value = "id") int id, @RequestBody Map<Integer, Integer> addonList, HttpServletRequest header){
+        return userBookingService.addOn(id, addonList, headerToUser(header));
+    }
+
+    @PutMapping("/update/addOnPrice/{id}")
+    public ResponseEntity<Object> updateAddOnPrice(@PathVariable(value = "id") int id, HttpServletRequest header){
+        return userBookingService.updateAddOnPrice(id, headerToUser(header));
     }
 
 }

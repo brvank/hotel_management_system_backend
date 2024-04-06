@@ -48,6 +48,7 @@ public class RoomCategoryCustomRepository {
 
         criteriaUpdate.set("room_category_name", roomCategory.getRoom_category_name());
         criteriaUpdate.set("room_category_price", roomCategory.getRoom_category_price());
+        criteriaUpdate.set("room_child_price", roomCategory.getRoom_child_price());
         criteriaUpdate.set("room_category_info", roomCategory.getRoom_category_info());
 
         Predicate predicateBookingId = criteriaBuilder.equal(bookingRoot.get("room_category_id"), roomCategory.getRoom_category_id());

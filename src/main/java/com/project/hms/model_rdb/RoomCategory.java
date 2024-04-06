@@ -21,15 +21,19 @@ public class RoomCategory {
     private double room_category_price;
 
     @Nonnull
+    private double room_child_price;
+
+    @Nonnull
     private String room_category_info;
 
     @Transient
     private List<Room> roomList;
 
-    public RoomCategory(int room_category_id, String room_category_name, double room_category_price, String room_category_info) {
+    public RoomCategory(int room_category_id, String room_category_name, double room_category_price, double room_child_price, String room_category_info) {
         this.room_category_id = room_category_id;
         this.room_category_name = room_category_name;
         this.room_category_price = room_category_price;
+        this.room_child_price = room_child_price;
         this.room_category_info = room_category_info;
     }
 
@@ -58,6 +62,14 @@ public class RoomCategory {
 
     public void setRoom_category_price(double room_category_price) {
         this.room_category_price = room_category_price;
+    }
+
+    public double getRoom_child_price() {
+        return room_child_price;
+    }
+
+    public void setRoom_child_price(double room_child_price) {
+        this.room_child_price = room_child_price;
     }
 
     public String getRoom_category_info() {

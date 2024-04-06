@@ -61,9 +61,11 @@ public class UserBookingCustomRepository {
         criteriaUpdate.set("date_time_check_in", userBooking.getDate_time_check_in());
         criteriaUpdate.set("date_time_check_out", userBooking.getDate_time_check_out());
         criteriaUpdate.set("person_count", userBooking.getPerson_count());
+        criteriaUpdate.set("child_count", userBooking.getChild_count());
         criteriaUpdate.set("room_id", userBooking.getRoom_id());
         criteriaUpdate.set("total_price", userBooking.getTotal_price());
         criteriaUpdate.set("advance_amount", userBooking.getAdvance_amount());
+        criteriaUpdate.set("discount", userBooking.getDiscount());
         criteriaUpdate.set("gst", userBooking.getGst());
 
         Predicate predicateBookingId = criteriaBuilder.equal(bookingRoot.get("booking_id"), userBooking.getBooking_id());
