@@ -75,6 +75,23 @@ public class UserBookingCustomRepository {
         entityManager.createQuery(criteriaUpdate).executeUpdate();
     }
 
+    @Transactional
+    public void updateAddonPrice(UserBooking userBooking, double addonPrice){
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+        CriteriaUpdate<UserBooking> criteriaUpdate = criteriaBuilder.createCriteriaUpdate(UserBooking.class);
+
+        Root<UserBooking> bookingRoot = criteriaUpdate.from(UserBooking.class);
+
+        criteriaUpdate.set("addon_price", addonPrice);
+
+        Predicate predicateBookingId = criteriaBuilder.equal(bookingRoot.get("booking_id"), userBooking.getBooking_id());
+
+        criteriaUpdate.where(predicateBookingId);
+
+        entityManager.createQuery(criteriaUpdate).executeUpdate();
+    }
+
     public Long count(){
         return userBookingRepository.count();
     }

@@ -20,9 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UserBookingService {
@@ -260,16 +258,30 @@ public class UserBookingService {
                 if(userBooking == null){
                     return appResponse.failureResponse(error.bookingDoesNotExist);
                 }else{
-//                    List<AddOn> addOnList = addOnCustomRepository.get();
-//
-//                    Map<Integer, AddOn> addOnMap = new HashMap<>();
-//
-//                    for(AddOn addOn: addOnList){
-//                        addOnMap.put(addOn.getAddon_id(), addOn);
-//                    }
-//
-//                    bookingAddOnCustomRepository.addMore(id, addonList, addOnMap);
-                    return appResponse.successResponse(success.bookingAddOnPriceUpdated);
+
+                    BookingAddOn bookingAddOn = bookingAddOnCustomRepository.get(userBooking.getBooking_id());
+
+                    if(bookingAddOn != null){
+                        Set<Map.Entry<Integer, Map<Double, Integer>>> entrySet = bookingAddOn.getBooking_addons().entrySet();
+
+                        double totalPrice = 0;
+                        for(Map.Entry<Integer, Map<Double, Integer>> entry : entrySet){
+
+                            Set<Map.Entry<Double, Integer>> priceCountSet = entry.getValue().entrySet();
+
+                            for(Map.Entry<Double, Integer> priceCountEntry : priceCountSet){
+                                totalPrice += priceCountEntry.getKey() * priceCountEntry.getValue();
+                            }
+                        }
+
+                        if(totalPrice != userBooking.getAddon_price()){
+                            userBookingCustomRepository.updateAddonPrice(userBooking, totalPrice);
+                        }
+
+                        return appResponse.successResponse(success.bookingAddOnPriceUpdated);
+                    }else{
+                        return appResponse.failureResponse(error.bookingNoAddon);
+                    }
                 }
             }catch (Exception e){
                 e.printStackTrace();

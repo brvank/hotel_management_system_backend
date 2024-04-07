@@ -39,6 +39,7 @@ public class AppMessages {
                 , bookingDoesNotExist = "Booking doesn't exist!"
                 , bookingNotUpdated = "Error updating Booking. Booking not updated!"
                 , bookingAddOnPriceNotUpdated = "Error updating Booking. Booking addon prices not updated!"
+                , bookingNoAddon = "This booking has no addons currently!"
 
                 , addOnNotAdded = "Error saving AddOn. AddOn not added!"
                 , addOnDoesNotExist = "AddOn doesn't exist!"

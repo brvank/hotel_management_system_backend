@@ -45,7 +45,7 @@ public class UserBookingController extends ParentController{
         return userBookingService.addOn(id, addonList, headerToUser(header));
     }
 
-    @PutMapping("/update/addOnPrice/{id}")
+    @PutMapping("/syncAddOnPrice/{id}")
     public ResponseEntity<Object> updateAddOnPrice(@PathVariable(value = "id") int id, HttpServletRequest header){
         return userBookingService.updateAddOnPrice(id, headerToUser(header));
     }
