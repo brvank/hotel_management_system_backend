@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.3'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'war'
 }
 
 group = 'com.project'
@@ -17,6 +18,7 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
@@ -34,6 +36,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb:3.2.4'
 
 
+}
+
+war {
+	archiveBaseName.set('hms-web')
+	archiveVersion.set('0.0.1-SNAPSHOT')
 }
 
 tasks.named('test') {
